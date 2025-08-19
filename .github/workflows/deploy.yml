@@ -1,10 +1,12 @@
 name: CI/CD - Build & Deploy Java App (Amazon Linux)
  
 on:
-  push:
-    # This triggers the workflow on push to any branch
-    branches:
-      - '**'
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Branch to deploy'
+        required: true
+        default: 'main'
  
 jobs:
   build-and-deploy:
@@ -13,6 +15,8 @@ jobs:
     steps:
     - name: Checkout Code
       uses: actions/checkout@v3
+      with:
+        ref: ${{ github.event.inputs.branch }}
  
     - name: Set up Java
       uses: actions/setup-java@v3
