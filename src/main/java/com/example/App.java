@@ -18,7 +18,7 @@ public class App {
 
     static class HelloHandler implements HttpHandler {
         public void handle(HttpExchange exchange) throws IOException {
-            String response = "Hello Keerthi,  I am from Java CI/CD! This is for sample";
+            String response = "Completed Project 23";
             exchange.sendResponseHeaders(200, response.length());
             try (OutputStream os = exchange.getResponseBody()) {
                 os.write(response.getBytes());
