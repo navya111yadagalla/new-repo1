@@ -3,7 +3,7 @@ name: CI/CD - Build & Deploy Java App (Amazon Linux)
 
 on:
   push:
-    branches: [ main ]
+    branches: [ PocDemo ]
 
 jobs:
   build-and-deploy:
