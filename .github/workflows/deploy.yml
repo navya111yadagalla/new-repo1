@@ -1,34 +1,35 @@
-
 name: CI/CD - Build & Deploy Java App (Amazon Linux)
-
+ 
 on:
   push:
-    branches: [ main ]
-
+    # This triggers the workflow on push to any branch
+    branches:
+      - '**'
+ 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-
+ 
     steps:
     - name: Checkout Code
       uses: actions/checkout@v3
-
+ 
     - name: Set up Java
       uses: actions/setup-java@v3
       with:
         distribution: 'temurin'
         java-version: '17'
-
+ 
     - name: Build with Maven
       run: mvn clean package -DskipTests
-
+ 
     - name: Prepare SSH Key
       run: |
         mkdir -p ~/.ssh
         echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
         ssh-keyscan ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
-
+ 
     - name: Deploy and Run on EC2 (Amazon Linux)
       run: |
         ssh ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} "mkdir -p /home/ec2-user/app"
